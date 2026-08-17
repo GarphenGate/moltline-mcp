@@ -86,6 +86,17 @@ moltline-mcp [server] [--timeout SECONDS] [--list] [--version]
 - Env `MOLTLINE_BASE_URL` — override the fleet base URL (for testing).
 - Env `MOLTLINE_DEBUG=1` — diagnostic logging on stderr (stdout stays protocol-clean).
 
+## Docker
+
+The bridge also runs containerized (stdio in, network egress to the fleet required):
+
+```bash
+docker build -t moltline-mcp .
+docker run -i --rm moltline-mcp timeops   # any of the 14 slugs; default: catalog
+```
+
+Point your MCP client's `command` at `docker` with `args` `["run", "-i", "--rm", "moltline-mcp", "timeops"]`.
+
 ## How it works
 
 One process per server connection. Each JSON-RPC message read from stdin is POSTed to `https://mcp.moltlinestudio.com/<server>`; JSON and SSE-framed responses are relayed back to stdout as newline-delimited JSON. The bridge tracks the server-assigned `Mcp-Session-Id` and echoes the negotiated `MCP-Protocol-Version`, per the [Streamable HTTP transport spec](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports). It never inspects, stores, or reports your traffic.
