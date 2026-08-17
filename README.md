@@ -117,6 +117,22 @@ See [Client configuration](#client-configuration) for the matching `mcpServers` 
 
 One process per server connection. Each JSON-RPC message read from stdin is POSTed to `https://mcp.moltlinestudio.com/<server>`; JSON and SSE-framed responses are relayed back to stdout as newline-delimited JSON. The bridge tracks the server-assigned `Mcp-Session-Id` and echoes the negotiated `MCP-Protocol-Version`, per the [Streamable HTTP transport spec](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports). It never inspects, stores, or reports your traffic.
 
+## Tests
+
+The bridge ships with an offline test suite - no network, no dependencies:
+
+```bash
+python -m unittest -v
+```
+
+Twenty-two tests cover the parts that actually break in a transport bridge:
+newline-delimited framing, SSE event splitting (multiple events, multi-line
+`data:` payloads, a trailing event with no blank line, comments and named
+events), session-id capture and reuse, protocol-version negotiation on
+`initialize` only, and error relay - a JSON-RPC error document is passed
+through verbatim, anything else becomes a well-formed `-32603`. CI runs them
+on Python 3.9, 3.12 and 3.13, plus a Docker build and container smoke test.
+
 ## Access and licensing
 
 - **Free tier** — anonymous. No registration or credentials; all free tools work immediately.

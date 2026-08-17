@@ -6,16 +6,35 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: Syntax check
         run: python -m py_compile moltline_mcp.py
+      - name: Unit tests
+        run: python -m unittest -v
       - name: CLI sanity
         run: |
           python moltline_mcp.py --version
           python moltline_mcp.py --list
+          test "$(python moltline_mcp.py --list | wc -l)" -eq 14
+      - name: Unknown server fails fast
+        run: |
+          if python moltline_mcp.py definitely-not-a-server 2>/dev/null; then
+            echo "expected a non-zero exit for an unknown slug" && exit 1
+          fi
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Docker build
         run: docker build -t moltline-mcp:ci .
+      - name: Container runs
+        run: docker run --rm moltline-mcp:ci --list
