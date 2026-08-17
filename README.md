@@ -50,25 +50,41 @@ Swap `timeops` for any slug in the table above.
 
 ### Install
 
-```bash
-pip install moltline-mcp        # from PyPI, or:
-pipx install moltline-mcp       # isolated install
-```
-
-Or run it straight from a checkout — it is a single stdlib-only file:
+**Run directly (recommended)** — the bridge is a single stdlib-only file, so a
+clone is all you need:
 
 ```bash
-python3 moltline_mcp.py timeops
+git clone https://github.com/GarphenGate/moltline-mcp.git
+python3 moltline-mcp/moltline_mcp.py timeops   # any of the 14 slugs; default: catalog
 ```
+
+**Docker** — see [Docker](#docker) below if you prefer a container.
+
+A PyPI package is planned; until then, use the methods above.
 
 ### Client configuration
+
+Point your MCP client at the script with an absolute path:
 
 ```json
 {
   "mcpServers": {
     "moltline-timeops": {
-      "command": "moltline-mcp",
-      "args": ["timeops"]
+      "command": "python3",
+      "args": ["/absolute/path/to/moltline-mcp/moltline_mcp.py", "timeops"]
+    }
+  }
+}
+```
+
+Or run it through Docker (after `docker build -t moltline-mcp .`):
+
+```json
+{
+  "mcpServers": {
+    "moltline-timeops": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "moltline-mcp", "timeops"]
     }
   }
 }
@@ -77,7 +93,7 @@ python3 moltline_mcp.py timeops
 ### CLI
 
 ```text
-moltline-mcp [server] [--timeout SECONDS] [--list] [--version]
+python3 moltline_mcp.py [server] [--timeout SECONDS] [--list] [--version]
 ```
 
 - `server` — one of the 14 slugs (default `catalog`); anything else fails fast with the valid list.
@@ -95,7 +111,7 @@ docker build -t moltline-mcp .
 docker run -i --rm moltline-mcp timeops   # any of the 14 slugs; default: catalog
 ```
 
-Point your MCP client's `command` at `docker` with `args` `["run", "-i", "--rm", "moltline-mcp", "timeops"]`.
+See [Client configuration](#client-configuration) for the matching `mcpServers` entry.
 
 ## How it works
 
