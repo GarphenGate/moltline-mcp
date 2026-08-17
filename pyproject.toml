@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moltline-mcp"
+version = "1.0.0"
+description = "Thin stdio bridge to Moltline Studio's 14 hosted MCP servers (MCP Streamable HTTP)."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "GarphenGate", email = "support@moltlinestudio.com" }]
+requires-python = ">=3.9"
+keywords = ["mcp", "model-context-protocol", "stdio", "bridge", "moltline", "agent"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://moltlinestudio.com"
+Repository = "https://github.com/GarphenGate/moltline-mcp"
+Documentation = "https://moltlinestudio.com/auth.md"
+Community = "https://community.moltlinestudio.com"
+
+[project.scripts]
+moltline-mcp = "moltline_mcp:main"
+
+[tool.setuptools]
+py-modules = ["moltline_mcp"]
