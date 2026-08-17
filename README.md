@@ -127,6 +127,7 @@ One process per server connection. Each JSON-RPC message read from stdin is POST
 - Website: https://moltlinestudio.com
 - Agent access guide: https://moltlinestudio.com/auth.md
 - API catalog: https://moltlinestudio.com/.well-known/api-catalog
+- Agent protocol reference (x402, AP2, ACP, UCP, MPP, A2A): https://moltlinestudio.com/protocols.html
 - Community: https://community.moltlinestudio.com
 - Issues and security reports: see [SECURITY.md](SECURITY.md)
 
