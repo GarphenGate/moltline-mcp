@@ -1,9 +1,10 @@
 # moltline-mcp
 
-A thin, dependency-free **stdio bridge** to [Moltline Studio](https://moltlinestudio.com)'s fleet of **14 hosted MCP servers**.
+A thin, dependency-free **stdio bridge** to [Moltline Studio](https://moltlinestudio.com)'s fleet of **19 hosted MCP servers**.
 
 Most modern MCP clients can connect to the fleet **directly over Streamable HTTP** — no install needed (see [Direct connection](#direct-connection-preferred) below). This bridge exists for clients that only speak the stdio transport: it proxies newline-delimited JSON-RPC between your client and the hosted server, verbatim, with no telemetry and no dependencies beyond the Python 3.9+ standard library.
 
+- **132 tools across 19 servers; 92 are free.**
 - Free tier: **no registration, no account, no credentials** — connect and call tools immediately.
 - Premium tools are unlocked with a Moltline license, presented **only as a tool argument** (never in URLs or headers). See [auth.md](https://moltlinestudio.com/auth.md).
 - Fleet is independently audited: **MCPize Verified A** on direct endpoints.
@@ -12,20 +13,25 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 
 | Server | Tools | What it does |
 |---|---|---|
-| `catalog` | 10 | Search and browse the Moltline catalog: 138 skill bundles and all 14 servers. |
-| `codereview` | 7 | Code review helpers: diff checklists, smell checks, review summaries. |
-| `timeops` | 5 | Time operations: business days, meeting overlap, recurrence, deadlines, SLA due dates. |
-| `data` | 7 | Data transforms: parsing, conversion, cleanup, and formatting utilities. |
-| `business` | 8 | Small-business operations: invoices, follow-ups, everyday workflows. |
-| `creator` | 8 | Content creation: hooks, outlines, captions, repurposing. |
-| `educator` | 7 | Education: lesson planning, quizzes, and study aids. |
-| `govern` | 7 | Governance checks: policy, compliance, and review gates. |
-| `humanizer` | 5 | Text humanizing: tone, clarity, natural rewrites. |
-| `merchant` | 6 | Commerce: product copy, listings, storefront helpers. |
-| `outbound` | 8 | Outreach: sequences, personalization, reply drafting. |
-| `personal` | 9 | Personal productivity: planning, routines, life admin. |
-| `research` | 8 | Research: citations, summaries, source organization. |
-| `skillmd-lint` | 6 | SKILL.md linting: validate and improve agent skill files. |
+| `catalog` | 10 | Search 138 agent skills and personas by plain-language job; preview any product. |
+| `codereview` | 7 | Risk-scan a diff, flag AI-generated-code tells, find secrets, report complexity. |
+| `govern` | 8 | Audit an MCP config or SKILL.md for over-broad scope and prompt-injection risk. |
+| `timeops` | 5 | Business days, meeting overlap, recurrence expansion, deadline and SLA math. |
+| `data` | 7 | Paste-your-data analytics: CSV profiling, A/B tests, correlation, growth, cohorts. |
+| `humanizer` | 5 | Find AI-isms with evidence, fingerprint a writing voice, measure burstiness. |
+| `business` | 8 | 30 finance, bookkeeping, legal-ops and SMB operations persona-skill products. |
+| `creator` | 8 | 20 blogging, brand-voice, copywriting, video and social persona-skill products. |
+| `educator` | 7 | 8 curriculum, classroom, accommodations and exam-prep persona-skill products. |
+| `outbound` | 8 | 7 outreach, sequencing, deliverability, call-coaching and CRM-hygiene products. |
+| `personal` | 9 | 20 inbox, calendar, travel, meals and family-logistics persona-skill products. |
+| `research` | 8 | 7 research navigation, thesis, note-taking and citation persona-skill products. |
+| `skillmd-lint` | 6 | Lint a SKILL.md for frontmatter, structure, secrets and size. All tools free. |
+| `merchant` | 6 | Commerce arithmetic: processor fees, charge-to-net, invoice totals, proration. |
+| `shipping` | 6 | Dimensional weight, parcel fit, landed cost, freight class, rate cards. |
+| `shopify` | 6 | Check a product CSV, URL handles, variant matrices and metafield keys. |
+| `dropship` | 6 | Dropshipping unit economics: margin, lead time, SKU mapping, price ladders. |
+| `recall` | 6 | A portable knowledge-graph memory you pass in and get back. No database. |
+| `vision` | 6 | Image header probing, bbox conversion, resize plans, color and detection math. |
 
 Machine-readable discovery: [api-catalog](https://moltlinestudio.com/.well-known/api-catalog) · per-server card at `https://mcp.moltlinestudio.com/<server>/.well-known/mcp/server-card.json` · [fleet health](https://mcp.moltlinestudio.com/health).
 
@@ -55,7 +61,7 @@ clone is all you need:
 
 ```bash
 git clone https://github.com/GarphenGate/moltline-mcp.git
-python3 moltline-mcp/moltline_mcp.py timeops   # any of the 14 slugs; default: catalog
+python3 moltline-mcp/moltline_mcp.py timeops   # any of the 19 slugs; default: catalog
 ```
 
 **Docker** — see [Docker](#docker) below if you prefer a container.
@@ -96,7 +102,7 @@ Or run it through Docker (after `docker build -t moltline-mcp .`):
 python3 moltline_mcp.py [server] [--timeout SECONDS] [--list] [--version]
 ```
 
-- `server` — one of the 14 slugs (default `catalog`); anything else fails fast with the valid list.
+- `server` — one of the 19 slugs (default `catalog`); anything else fails fast with the valid list.
 - `--timeout` — per-request timeout in seconds (default 300, or env `MOLTLINE_TIMEOUT`).
 - `--list` — print the server slugs and exit.
 - Env `MOLTLINE_BASE_URL` — override the fleet base URL (for testing).
@@ -108,7 +114,7 @@ The bridge also runs containerized (stdio in, network egress to the fleet requir
 
 ```bash
 docker build -t moltline-mcp .
-docker run -i --rm moltline-mcp timeops   # any of the 14 slugs; default: catalog
+docker run -i --rm moltline-mcp timeops   # any of the 19 slugs; default: catalog
 ```
 
 See [Client configuration](#client-configuration) for the matching `mcpServers` entry.

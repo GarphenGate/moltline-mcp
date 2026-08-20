@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "moltline-mcp"
-version = "1.0.0"
-description = "Thin stdio bridge to Moltline Studio's 14 hosted MCP servers (MCP Streamable HTTP)."
+version = "1.1.0"
+description = "Thin stdio bridge to Moltline Studio's 19 hosted MCP servers (MCP Streamable HTTP)."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "GarphenGate", email = "support@moltlinestudio.com" }]

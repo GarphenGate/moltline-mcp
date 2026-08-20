@@ -52,8 +52,8 @@ def relay(bridge, response, sent_message=None):
 class ServerListTests(unittest.TestCase):
 
     def test_fourteen_servers_no_duplicates(self):
-        self.assertEqual(len(m.SERVERS), 14)
-        self.assertEqual(len(set(m.SERVERS)), 14)
+        self.assertEqual(len(m.SERVERS), 19)
+        self.assertEqual(len(set(m.SERVERS)), 19)
 
     def test_default_server_is_in_the_whitelist(self):
         self.assertIn("catalog", m.SERVERS)
