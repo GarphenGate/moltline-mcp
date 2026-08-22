@@ -78,9 +78,11 @@ def _write_out(obj_text: str) -> None:
 class Bridge:
     """Forwards JSON-RPC messages between stdio and one hosted MCP server."""
 
-    def __init__(self, endpoint: str, timeout: float) -> None:
+    def __init__(self, endpoint: str, timeout: float,
+                 license_key: str = "") -> None:
         self.endpoint = endpoint
         self.timeout = timeout
+        self.license_key = license_key
         self.session_id: str | None = None
         self.protocol_version: str | None = None
 
@@ -96,6 +98,13 @@ class Bridge:
             headers["Mcp-Session-Id"] = self.session_id
         if self.protocol_version:
             headers["MCP-Protocol-Version"] = self.protocol_version
+        if self.license_key:
+            # Premium tools gate on this header server-side. It is read from
+            # the environment on purpose: argv is world-readable through `ps`,
+            # and a licence in a URL is a licence in every proxy log between
+            # here and the origin. It is never logged, even under
+            # MOLTLINE_DEBUG.
+            headers["X-Moltline-License"] = self.license_key
         return headers
 
     def forward(self, raw: str) -> None:
@@ -236,9 +245,13 @@ def main(argv=None) -> int:
         )
 
     base_url = os.environ.get("MOLTLINE_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
+    license_key = os.environ.get("MOLTLINE_LICENSE", "").strip()
     bridge = Bridge(endpoint="%s/%s" % (base_url, args.server),
-                    timeout=args.timeout)
+                    timeout=args.timeout,
+                    license_key=license_key)
     _debug("bridging stdio <-> " + bridge.endpoint)
+    # Whether a licence is configured, never the licence itself.
+    _debug("licence: " + ("configured" if license_key else "not set (free tier)"))
 
     # Exit promptly and quietly on Ctrl-C / SIGTERM.
     signal.signal(signal.SIGINT, lambda *_: sys.exit(0))
