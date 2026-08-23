@@ -9,6 +9,8 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 - Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
 - Fleet is independently audited: **MCPize Verified A** on direct endpoints.
 
+**Find it on:** [Smithery](https://smithery.ai/servers/techdpr/moltline-catalog) · [MCPize](https://mcpize.com/mcp/moltline-catalog) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
+
 ## The fleet
 
 | Server | Tools | What it does |
