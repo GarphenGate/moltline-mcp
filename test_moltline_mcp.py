@@ -51,7 +51,7 @@ def relay(bridge, response, sent_message=None):
 
 class ServerListTests(unittest.TestCase):
 
-    def test_fourteen_servers_no_duplicates(self):
+    def test_nineteen_servers_no_duplicates(self):
         self.assertEqual(len(m.SERVERS), 19)
         self.assertEqual(len(set(m.SERVERS)), 19)
 
@@ -61,6 +61,31 @@ class ServerListTests(unittest.TestCase):
     def test_slugs_are_url_safe(self):
         for slug in m.SERVERS:
             self.assertRegex(slug, r"^[a-z][a-z0-9-]*$", slug)
+
+
+class LicenseTests(unittest.TestCase):
+    """The licence is the paid product. These assert it travels, and that it
+    travels only where it should."""
+
+    KEY = "MOLT-allaccess-20260901-abc123-deadbeefdeadbeef"
+
+    def test_license_is_sent_as_the_header_the_server_reads(self):
+        bridge = m.Bridge("http://example.invalid/catalog", 5,
+                          license_key=self.KEY)
+        self.assertEqual(bridge._headers()["X-Moltline-License"], self.KEY)
+
+    def test_no_license_means_no_header(self):
+        bridge = m.Bridge("http://example.invalid/catalog", 5)
+        self.assertNotIn("X-Moltline-License", bridge._headers())
+
+    def test_empty_license_means_no_header(self):
+        bridge = m.Bridge("http://example.invalid/catalog", 5, license_key="")
+        self.assertNotIn("X-Moltline-License", bridge._headers())
+
+    def test_license_never_appears_in_the_endpoint_url(self):
+        bridge = m.Bridge("http://example.invalid/catalog", 5,
+                          license_key=self.KEY)
+        self.assertNotIn(self.KEY, bridge.endpoint)
 
 
 class FramingTests(unittest.TestCase):

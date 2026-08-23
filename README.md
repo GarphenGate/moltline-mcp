@@ -6,7 +6,7 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 
 - **132 tools across 19 servers; 92 are free.**
 - Free tier: **no registration, no account, no credentials** — connect and call tools immediately.
-- Premium tools are unlocked with a Moltline license, presented **only as a tool argument** (never in URLs or headers). See [auth.md](https://moltlinestudio.com/auth.md).
+- Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
 - Fleet is independently audited: **MCPize Verified A** on direct endpoints.
 
 ## The fleet
@@ -106,7 +106,10 @@ python3 moltline_mcp.py [server] [--timeout SECONDS] [--list] [--version]
 - `--timeout` — per-request timeout in seconds (default 300, or env `MOLTLINE_TIMEOUT`).
 - `--list` — print the server slugs and exit.
 - Env `MOLTLINE_BASE_URL` — override the fleet base URL (for testing).
+- Env `MOLTLINE_LICENSE` — your Moltline license, sent as the `X-Moltline-License`
+  header to unlock premium tools. Omit it and the bridge runs free-tier only.
 - Env `MOLTLINE_DEBUG=1` — diagnostic logging on stderr (stdout stays protocol-clean).
+  The license is never logged; debug output reports only whether one is configured.
 
 ## Docker
 
@@ -142,7 +145,7 @@ on Python 3.9, 3.12 and 3.13, plus a Docker build and container smoke test.
 ## Access and licensing
 
 - **Free tier** — anonymous. No registration or credentials; all free tools work immediately.
-- **Premium** — unlocked with a Moltline license purchased (human-in-the-loop) at [moltlinestudio.com](https://moltlinestudio.com/). The license is passed as a tool argument where a premium tool asks for it — never as a bearer header, never in URLs. Details: [auth.md](https://moltlinestudio.com/auth.md).
+- **Premium** — unlocked with a Moltline license purchased (human-in-the-loop) at [moltlinestudio.com](https://moltlinestudio.com/). Set `MOLTLINE_LICENSE` in the environment and the bridge forwards it as the `X-Moltline-License` request header. It is deliberately not a command-line flag: argv is world-readable through `ps`. It is never placed in a URL and never logged. Details: [auth.md](https://moltlinestudio.com/auth.md).
 
 ## Links
 

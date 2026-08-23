@@ -23,7 +23,13 @@ jobs:
         run: |
           python moltline_mcp.py --version
           python moltline_mcp.py --list
-          test "$(python moltline_mcp.py --list | wc -l)" -eq 14
+          # Assert against the module's own list, not a number typed here.
+          # This was hardcoded to 14; five servers were added on 2026-08-20 and
+          # main has been red ever since, because the count lives in two places
+          # and only one of them got updated. Derived, it cannot drift again -
+          # and the unit tests still pin SERVERS to its expected length.
+          expected="$(python -c 'import moltline_mcp; print(len(moltline_mcp.SERVERS))')"
+          test "$(python moltline_mcp.py --list | wc -l)" -eq "$expected"
       - name: Unknown server fails fast
         run: |
           if python moltline_mcp.py definitely-not-a-server 2>/dev/null; then
