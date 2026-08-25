@@ -7,7 +7,7 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 - **132 tools across 19 servers; 92 are free.**
 - Free tier: **no registration, no account, no credentials** — connect and call tools immediately.
 - Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
-- Every server carries its own public MCPize check result on the direct endpoint: **5 A+, 11 A, 3 B+** across the 19 servers, each linked from that server's listing.
+- Independently checked by MCPize on the direct endpoints. All 19 servers score **100 on clarity, 100 on reliability and 100 on trust**, and the only issue flagged fleet-wide is that the free tier accepts anonymous access — which is the point of it. Each server links its own public result.
 
 **Find it on:** [Smithery](https://smithery.ai/servers/techdpr/moltline-catalog) · [MCPize](https://mcpize.com/mcp/moltline-catalog) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
 
