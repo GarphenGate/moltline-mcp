@@ -1,0 +1,95 @@
+name: Security
+
+# Emits SARIF from every scanner and uploads it to GitHub code scanning, so
+# alerts land in the Security tab with PR annotations and history. Each SARIF
+# file is also kept as a build artifact for downstream triage.
+#
+# Self-contained: ci.yml and its triggers are untouched.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Tuesday 04:17 UTC - staggered off the hour so repos do not all fire together.
+    - cron: "17 4 * * 2"
+
+permissions:
+  contents: read
+
+jobs:
+  codeql:
+    name: CodeQL (python)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: python
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: codeql
+          output: sarif/codeql
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sarif-codeql
+          path: sarif/codeql
+          retention-days: 14
+
+  trivy-fs:
+    name: Trivy filesystem
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-fs.sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-fs.sarif
+          category: trivy-fs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sarif-trivy-fs
+          path: trivy-fs.sarif
+          retention-days: 14
+
+  trivy-image:
+    name: Trivy image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        # Same build ci.yml already proves; scanned here rather than shipped blind.
+        run: docker build -t moltline-mcp:scan .
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: image
+          image-ref: moltline-mcp:scan
+          format: sarif
+          output: trivy-image.sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-image.sarif
+          category: trivy-image
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sarif-trivy-image
+          path: trivy-image.sarif
+          retention-days: 14
