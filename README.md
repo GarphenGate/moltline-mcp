@@ -1,13 +1,13 @@
 # moltline-mcp
 
-A thin, dependency-free **stdio bridge** to [Moltline Studio](https://moltlinestudio.com)'s fleet of **19 hosted MCP servers**.
+A thin, dependency-free **stdio bridge** to [Moltline Studio](https://moltlinestudio.com)'s fleet of **22 hosted MCP servers**.
 
 Most modern MCP clients can connect to the fleet **directly over Streamable HTTP** — no install needed (see [Direct connection](#direct-connection-preferred) below). This bridge exists for clients that only speak the stdio transport: it proxies newline-delimited JSON-RPC between your client and the hosted server, verbatim, with no telemetry and no dependencies beyond the Python 3.9+ standard library.
 
-- **132 tools across 19 servers; 92 are free.**
+- **160 tools across 22 servers; 110 are free.**
 - Free tier: **no registration, no account, no credentials** — connect and call tools immediately.
 - Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
-- Independently checked by MCPize on the direct endpoints (re-scanned 5 September 2026: 5 A+, 13 A, 1 B+). All 19 servers score **100 on clarity, 100 on reliability and 100 on trust**; the one finding raised on every server is that the free tier accepts anonymous access — which is the point of it — and the remaining deductions sit in MCPize's "Market" dimension (a crowded category), not in protocol, safety or reliability. Each server's MCPize listing links its own public result.
+- Independently checked by MCPize on the direct endpoints (scans of 5–6 September 2026: 6 A+, 15 A, 1 B+; scores 89–98). All 22 servers score **100 on clarity, 100 on reliability and 100 on trust**, 95 on protocol and 87 on safety; the one finding raised on every server is that the free tier accepts anonymous access — which is the point of it — and the spread between servers sits in MCPize's "Market" dimension (a crowded category). Each server's MCPize listing links its own public result.
 
 **Find it on:** [Smithery](https://smithery.ai/servers/techdpr/moltline-catalog) · [MCPize](https://mcpize.com/developers/garphengateai) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
 
@@ -34,6 +34,9 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 | `dropship` | 6 | Dropshipping unit economics: margin, lead time, SKU mapping, price ladders. |
 | `recall` | 6 | A portable knowledge-graph memory you pass in and get back. No database. |
 | `vision` | 6 | Image header probing, bbox conversion, resize plans, color and detection math. |
+| `regclock` | 9 | Incident-reporting deadlines from the legal text (EU CRA, NIS2, DORA, GDPR, UK GDPR, HIPAA, SEC 8-K), cited. |
+| `taxlots` | 8 | Crypto cost basis: parse exchange CSVs, lint, match transfers, FIFO/LIFO/HIFO lots, Form 8949 rows, 1099-DA diff. |
+| `optimize` | 11 | OR-Tools routing, 3-D packing, 1-D/2-D cutting, knapsack and shift rostering with stated limits. |
 
 Machine-readable discovery: [api-catalog](https://moltlinestudio.com/.well-known/api-catalog) · per-server card at `https://mcp.moltlinestudio.com/<server>/.well-known/mcp/server-card.json` · [fleet health](https://mcp.moltlinestudio.com/health).
 
@@ -63,7 +66,7 @@ clone is all you need:
 
 ```bash
 git clone https://github.com/GarphenGate/moltline-mcp.git
-python3 moltline-mcp/moltline_mcp.py timeops   # any of the 19 slugs; default: catalog
+python3 moltline-mcp/moltline_mcp.py timeops   # any of the 22 slugs; default: catalog
 ```
 
 **Docker** — see [Docker](#docker) below if you prefer a container.
@@ -104,7 +107,7 @@ Or run it through Docker (after `docker build -t moltline-mcp .`):
 python3 moltline_mcp.py [server] [--timeout SECONDS] [--list] [--version]
 ```
 
-- `server` — one of the 19 slugs (default `catalog`); anything else fails fast with the valid list.
+- `server` — one of the 22 slugs (default `catalog`); anything else fails fast with the valid list.
 - `--timeout` — per-request timeout in seconds (default 300, or env `MOLTLINE_TIMEOUT`).
 - `--list` — print the server slugs and exit.
 - Env `MOLTLINE_BASE_URL` — override the fleet base URL (for testing).
@@ -119,7 +122,7 @@ The bridge also runs containerized (stdio in, network egress to the fleet requir
 
 ```bash
 docker build -t moltline-mcp .
-docker run -i --rm moltline-mcp timeops   # any of the 19 slugs; default: catalog
+docker run -i --rm moltline-mcp timeops   # any of the 22 slugs; default: catalog
 ```
 
 See [Client configuration](#client-configuration) for the matching `mcpServers` entry.
