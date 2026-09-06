@@ -18,7 +18,7 @@ Streamable HTTP transport spec.
 Usage:
     moltline-mcp [server]
 
-where [server] is one of the 19 Moltline server slugs (default: catalog).
+where [server] is one of the 22 Moltline server slugs (default: catalog).
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ __version__ = "1.1.0"
 
 DEFAULT_BASE_URL = "https://mcp.moltlinestudio.com"
 
-# The 19 hosted servers. Kept as an explicit whitelist so a typo fails fast
+# The 22 hosted servers. Kept as an explicit whitelist so a typo fails fast
 # with a helpful message instead of a confusing HTTP 404 mid-session.
 SERVERS = (
     "catalog",
@@ -58,6 +58,9 @@ SERVERS = (
     "dropship",
     "recall",
     "vision",
+    "regclock",
+    "taxlots",
+    "optimize",
 )
 
 _stdout_lock = threading.Lock()
