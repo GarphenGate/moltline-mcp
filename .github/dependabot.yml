@@ -1,0 +1,16 @@
+# Keeps the SHA-pinned GitHub Actions (and the lockfile) current. With actions
+# pinned to commit SHAs (SoA 5.21 / 8.9, supply-chain), something has to move
+# the pins forward — this does, as reviewable weekly PRs. Security scanning
+# gates those PRs like any other.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: "05:00"
+      timezone: Etc/UTC
+    labels: [ci, dependencies]
+    commit-message:
+      prefix: "ci(actions)"
