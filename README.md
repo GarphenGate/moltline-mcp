@@ -2,12 +2,12 @@
 
 A thin, dependency-free **stdio bridge** to [Moltline Studio](https://moltlinestudio.com)'s fleet of **22 hosted MCP servers**.
 
-Most modern MCP clients can connect to the fleet **directly over Streamable HTTP** — no install needed (see [Direct connection](#direct-connection-preferred) below). This bridge exists for clients that only speak the stdio transport: it proxies newline-delimited JSON-RPC between your client and the hosted server, verbatim, with no telemetry and no dependencies beyond the Python 3.9+ standard library.
+Most modern MCP clients can connect to the fleet **directly over Streamable HTTP**, no install needed (see [Direct connection](#direct-connection-preferred) below). This bridge exists for clients that only speak the stdio transport: it proxies newline-delimited JSON-RPC between your client and the hosted server, verbatim, with no telemetry and no dependencies beyond the Python 3.9+ standard library.
 
 - **160 tools across 22 servers; 110 are free.**
-- Free tier: **no registration, no account, no credentials** — connect and call tools immediately.
+- Free tier: **no registration, no account, no credentials**. Connect and call tools immediately.
 - Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
-- Independently checked by MCPize on the direct endpoints (scans of 5–6 September 2026: 6 A+, 15 A, 1 B+; scores 89–98). All 22 servers score **100 on clarity, 100 on reliability and 100 on trust**, 95 on protocol and 87 on safety; the one finding raised on every server is that the free tier accepts anonymous access — which is the point of it — and the spread between servers sits in MCPize's "Market" dimension (a crowded category). Each server's MCPize listing links its own public result.
+- Independently checked by MCPize on the direct endpoints (scans of 5–6 September 2026: 6 A+, 15 A, 1 B+; scores 89–98). All 22 servers score **100 on clarity, 100 on reliability and 100 on trust**, 95 on protocol and 87 on safety; the one finding raised on every server is that the free tier accepts anonymous access (which is the point of it), and the spread between servers sits in MCPize's "Market" dimension (a crowded category). Each server's MCPize listing links its own public result.
 
 **Find it on:** [Smithery](https://smithery.ai/servers/techdpr/moltline-catalog) · [MCPize](https://mcpize.com/developers/garphengateai) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
 
@@ -42,7 +42,7 @@ Machine-readable discovery: [api-catalog](https://moltlinestudio.com/.well-known
 
 ## Direct connection (preferred)
 
-If your MCP client supports Streamable HTTP (Claude Desktop, Claude Code, Cursor, and most current clients do), point it straight at the hosted endpoint — nothing to install:
+If your MCP client supports Streamable HTTP (Claude Desktop, Claude Code, Cursor, and most current clients do), point it straight at the hosted endpoint (nothing to install):
 
 ```json
 {
@@ -61,7 +61,7 @@ Swap `timeops` for any slug in the table above.
 
 ### Install
 
-**Run directly (recommended)** — the bridge is a single stdlib-only file, so a
+**Run directly (recommended):** the bridge is a single stdlib-only file, so a
 clone is all you need:
 
 ```bash
@@ -69,7 +69,7 @@ git clone https://github.com/GarphenGate/moltline-mcp.git
 python3 moltline-mcp/moltline_mcp.py timeops   # any of the 22 slugs; default: catalog
 ```
 
-**Docker** — see [Docker](#docker) below if you prefer a container.
+**Docker:** see [Docker](#docker) below if you prefer a container.
 
 A PyPI package is planned; until then, use the methods above.
 
@@ -107,13 +107,13 @@ Or run it through Docker (after `docker build -t moltline-mcp .`):
 python3 moltline_mcp.py [server] [--timeout SECONDS] [--list] [--version]
 ```
 
-- `server` — one of the 22 slugs (default `catalog`); anything else fails fast with the valid list.
-- `--timeout` — per-request timeout in seconds (default 300, or env `MOLTLINE_TIMEOUT`).
-- `--list` — print the server slugs and exit.
-- Env `MOLTLINE_BASE_URL` — override the fleet base URL (for testing).
-- Env `MOLTLINE_LICENSE` — your Moltline license, sent as the `X-Moltline-License`
+- `server`: one of the 22 slugs (default `catalog`); anything else fails fast with the valid list.
+- `--timeout`: per-request timeout in seconds (default 300, or env `MOLTLINE_TIMEOUT`).
+- `--list`: print the server slugs and exit.
+- Env `MOLTLINE_BASE_URL`: override the fleet base URL (for testing).
+- Env `MOLTLINE_LICENSE`: your Moltline license, sent as the `X-Moltline-License`
   header to unlock premium tools. Omit it and the bridge runs free-tier only.
-- Env `MOLTLINE_DEBUG=1` — diagnostic logging on stderr (stdout stays protocol-clean).
+- Env `MOLTLINE_DEBUG=1`: diagnostic logging on stderr (stdout stays protocol-clean).
   The license is never logged; debug output reports only whether one is configured.
 
 ## Docker
@@ -149,8 +149,8 @@ on Python 3.9, 3.12 and 3.13, plus a Docker build and container smoke test.
 
 ## Access and licensing
 
-- **Free tier** — anonymous. No registration or credentials; all free tools work immediately.
-- **Premium** — unlocked with a Moltline license purchased (human-in-the-loop) at [moltlinestudio.com](https://moltlinestudio.com/). Set `MOLTLINE_LICENSE` in the environment and the bridge forwards it as the `X-Moltline-License` request header. It is deliberately not a command-line flag: argv is world-readable through `ps`. It is never placed in a URL and never logged. Details: [auth.md](https://moltlinestudio.com/auth.md).
+- **Free tier:** anonymous. No registration or credentials; all free tools work immediately.
+- **Premium:** unlocked with a Moltline license purchased (human-in-the-loop) at [moltlinestudio.com](https://moltlinestudio.com/). Set `MOLTLINE_LICENSE` in the environment and the bridge forwards it as the `X-Moltline-License` request header. It is deliberately not a command-line flag: argv is world-readable through `ps`. It is never placed in a URL and never logged. Details: [auth.md](https://moltlinestudio.com/auth.md).
 
 ## Links
 
