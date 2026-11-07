@@ -9,7 +9,7 @@ Most modern MCP clients can connect to the fleet **directly over Streamable HTTP
 - Premium tools are unlocked with a Moltline license. Set `MOLTLINE_LICENSE` in your MCP client's environment; the bridge sends it as the `X-Moltline-License` header and never writes it to argv, URLs or logs. See [auth.md](https://moltlinestudio.com/auth.md).
 - Independently checked by MCPize on the direct endpoints (scans of 5–6 September 2026: 6 A+, 15 A, 1 B+; scores 89–98). All 22 servers score **100 on clarity, 100 on reliability and 100 on trust**, 95 on protocol and 87 on safety; the one finding raised on every server is that the free tier accepts anonymous access (which is the point of it), and the spread between servers sits in MCPize's "Market" dimension (a crowded category). Each server's MCPize listing links its own public result.
 
-**Find it on:** [Smithery](https://smithery.ai/servers/techdpr/moltline-catalog) · [MCPize](https://mcpize.com/developers/garphengateai) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
+**Find it on:** [MCPize](https://mcpize.com/developers/garphengateai) · [Glama](https://glama.ai/mcp/servers/GarphenGate/moltline-mcp) · [Clawmart](https://clawmart.sh/l/3ShWAZ) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=moltlinestudio)
 
 ## The fleet
 
